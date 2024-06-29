@@ -1,6 +1,8 @@
 // Question Link :- https://leetcode.com/problems/minimum-score-triangulation-of-polygon/description/
 // Minimum Score Triangulation of Polygon
 
+// T.C = O(N^3)
+// S.C = O(N^2) 
 class Solution {
 public:
     int solve(vector<int>& arr,int i ,int j ,vector<vector<int>> &dp) {
