@@ -6,10 +6,11 @@ int Solve(string X, int i, int j, bool isTrue) {
         return false;
     }
     if (i == j) {
-		if (isTrue)
+		if (isTrue) {
 			return X[i] == 'T';
-		else
+		} else {
 			return X[i] == 'F';
+		}
 	}
 
 	int ans = 0;
@@ -20,24 +21,26 @@ int Solve(string X, int i, int j, bool isTrue) {
 		int r_F = Solve(X, k + 1, j, false);
 
 		if (X[k] == '|') {
-			if (isTrue == true)
+			if (isTrue == true) {
 				ans += l_T * r_T + l_T * r_F + l_F * r_T;
-			else
+			} else {
 				ans += l_F * r_F;
+			}
 		}
 		else if (X[k] == '&') {
-			if (isTrue == true)
+			if (isTrue == true) {
 				ans += l_T * r_T;
-			else
+			} else {
 				ans += l_T * r_F + l_F * r_T + l_F * r_F;
+			}
 		}
 		else if (X[k] == '^') {
-			if (isTrue == true)
+			if (isTrue == true) {
 				ans += l_T * r_F + l_F * r_T;
-			else
+			} else {
 				ans += l_T * r_T + l_F * r_F;
+			}
 		}
-
 	}
 	return ans;
 }
