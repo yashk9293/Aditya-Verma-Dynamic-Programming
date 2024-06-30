@@ -25,7 +25,7 @@ public:
             return 0;
         }
         int res = INT_MIN;
-        int x = solve(root, res);
+        solve(root, res);
 
         return res-1;      // no. of edges
         
