@@ -36,7 +36,7 @@ public:
 
 
 
-// Memoization Optimized
+// Memoization Optimized (TLE in LeetCode)
 class Solution {
 public:
     int Solve(int eggs, int floors, vector<vector<int>>& t) {
