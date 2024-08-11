@@ -1,5 +1,5 @@
 // Question Link :- https://leetcode.com/problems/diameter-of-binary-tree/
-// Diameter of Binary Tree
+// Diameter of Binary Tree (Striver)
 
 // T.C = O(n)
 // S.C = O(n)
@@ -13,11 +13,8 @@ public:
         int l = solve(root->left, res);
         int r = solve(root->right, res);
 
-        int temp = 1 + max(l,r);
-        int ans = max(temp, 1+l+r);
-        res = max(res, ans);
-
-        return temp;
+        res = max(res, 1+l+r);
+        return 1 + max(l,r);
     }
 
     int diameterOfBinaryTree(TreeNode* root) {
