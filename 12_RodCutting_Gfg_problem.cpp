@@ -7,7 +7,8 @@
 // Approach - 1
 class Solution{
   public:
-    int cutRod(int price[], int n) {
+    int cutRod(vector<int> &price) {
+        int n = price.size();
         int len[n];
         for(int i=0;i<n;i++) {
             len[i] = i + 1;
@@ -16,7 +17,7 @@ class Solution{
         vector<vector<int>> t(n + 1, vector<int>(n + 1, 0));
         for(int i=0; i<n+1; i++){
             t[i][0] = 0;
-            t[0][i] = 0;
+            t[0][i] = 1;
         }
         
         for(int i=1; i<n+1; i++) {
@@ -38,7 +39,8 @@ class Solution{
 // Approach - 2
 class Solution{
   public:
-    int cutRod(int price[], int n) {
+    int cutRod(vector<int> &price) {
+        int n = price.size();
         vector<int> dp(n+1, 0);
         for(int i=1; i<=n; i++) {
             for(int j=i; j<=n; j++) {
