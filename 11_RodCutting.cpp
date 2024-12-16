@@ -14,8 +14,11 @@ int getMaxProfit(int length[], int price[], int n, int L) {
 	int t[n + 1][L + 1];
 	for (int i = 0; i <= n; i++) {
 		for (int j = 0; j <= L; j++) {
-			if (j == 0 || i == 0) {
+			if (i == 0) {
 				t[i][j] = 0;
+			}
+			if (j == 0) {
+				t[i][j] = 1;
 			}
 		}
 	}
