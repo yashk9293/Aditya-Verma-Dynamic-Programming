@@ -1,8 +1,3 @@
-// Question Link :- https://leetcode.com/problems/super-egg-drop/
-// Super Egg Drop
-
-// T.C = O((floor * eggs) * log(floor)) ~ O((n*k) logn)
-// S.C = O(floor * eggs) ~ O(n*k)
 class Solution {
 public:
     int Solve(int eggs, int floors, vector<vector<int>>& t) {
@@ -27,13 +22,13 @@ public:
             Second one, if the egg will not break, no. of eggs will not decreased and we
             have to go above form that floor. */
             
-            int left = Solve(eggs-1, mid-1, t);
-            int right = Solve(eggs, floors-mid, t);
+            int breaks = Solve(eggs-1, mid-1, t);    // left
+            int not_breaks = Solve(eggs, floors-mid, t);    // right
             
-            temp = 1 + max(left, right);
+            temp = 1 + max(breaks, not_breaks);
             
             //since we need more temp value in worst case, so need to go above
-            if(left < right) {
+            if(breaks < not_breaks) {  // left < right
                 low = mid+1;
             } else {
                 high = mid-1;     // move to the downward
