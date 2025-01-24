@@ -1,6 +1,7 @@
 // Question Link :- https://www.geeksforgeeks.org/problems/subset-sum-problem-1611555638/1
 // Subset Sum Problem
 
+// Tabulation
 // T.C = O(sum*n)
 // S.C = O(sum*n)
 class Solution {
@@ -30,5 +31,38 @@ public:
     		}
     	}
     	return t[n][sum]; // at last return T/F
+    }
+};
+
+
+
+
+// Memoization
+// T.C = O(sum*n)
+// S.C = O(sum*n)
+class Solution {
+  public:
+    bool solve(vector<int>& arr, int target, int n, vector<vector<bool>>& dp) {
+        if(target == 0) {
+            return true;
+        }
+        if(n == 0) {
+            return false;
+        }
+        if(dp[n][target] != false) {
+            return dp[n][target];
+        }
+        if(arr[n-1] <= target) {
+            dp[n][target] = solve(arr, target-arr[n-1], n-1, dp) || solve(arr, target, n-1, dp);
+        } else {
+            dp[n][target] = solve(arr, target, n-1, dp);
+        }
+        return dp[n][target];
+    }
+
+    bool isSubsetSum(vector<int>& arr, int target) {
+        int n = arr.size();
+        vector<vector<bool>> dp(n + 1, vector<bool>(target + 1, false));
+        return solve(arr, target, n, dp);
     }
 };
