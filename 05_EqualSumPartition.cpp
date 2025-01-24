@@ -1,6 +1,8 @@
 // Question Link :- https://leetcode.com/problems/partition-equal-subset-sum/
 // Partition Equal Subset Sum
 
+
+// Tabulation
 // T.C = O(sum*n)
 // S.C = O(sum)
 class Solution {
@@ -43,5 +45,47 @@ public:
     		return false;
     	}
     	return isSubsetPossible(arr, n, sum / 2);
+    }
+};
+
+
+
+// Memoization
+// T.C = O(sum*n)
+// S.C = O(sum*n)
+class Solution {
+public:
+    bool solve(vector<int>& nums, int n, int target, vector<vector<bool>>& dp) {
+        if(target == 0) {
+            return true;
+        }
+        if(n == 0) {
+            return false;
+        }
+        if(dp[n][target] != false) {
+            return dp[n][target];
+        }
+        if(nums[n-1] <= target) {
+            dp[n][target] = solve(nums, n-1, target - nums[n-1], dp) || solve(nums, n-1, target, dp);
+        } else {
+            dp[n][target] = solve(nums, n-1, target, dp);
+        }
+        return dp[n][target];
+    }
+
+    bool canPartition(vector<int>& nums) {
+        int n = nums.size();
+        int sum = 0;
+        for(int i=0; i<n; i++) {
+            sum += nums[i];
+        }
+        if(sum % 2 != 0) {
+            return false;
+        }
+
+        int target = sum/2;
+
+        vector<vector<bool>> dp(n+1, vector<bool>(target+1, false));
+        return solve(nums, n, target, dp);
     }
 };
