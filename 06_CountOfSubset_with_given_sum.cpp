@@ -39,3 +39,39 @@ public:
 		return t[n][sum];
 	}
 };
+
+
+
+
+// Memoization
+// T.C = O(sum*n)
+// S.C = O(sum*n)
+class Solution {
+  public:
+    int mod = 1e9 + 7;
+    
+    int solve(vector<int>& arr, int target, int n, vector<vector<int>>& dp) {
+        if(n == 0) {
+            if(target == 0) {
+                return 1;
+            }
+            return 0;
+        }
+
+        if(dp[n][target] != -1) {
+            return dp[n][target];
+        }
+        if(arr[n-1] <= target) {
+            dp[n][target] = (solve(arr, target-arr[n-1], n-1, dp) + solve(arr, target, n-1, dp))%mod;
+        } else {
+            dp[n][target] = (solve(arr, target, n-1, dp))%mod;
+        }
+        return dp[n][target];
+    }
+
+    int perfectSum(vector<int>& arr, int target) {
+        int n = arr.size();
+        vector<vector<int>> dp(n + 1, vector<int>(target + 1, -1));
+        return solve(arr, target, n, dp);
+    }
+};
