@@ -23,35 +23,6 @@ recursion and select the combination which gives us the minimum number of coins.
 // Approach - 1(Recursion) [Giving TLE]
 // T.C = O(n^amount) where n = length of coins array
 // S.C = O(n)
-class Solution {
-public:
-    int solve(vector<int>& coins, int amount) {
-        if(amount == 0) {
-            return 0;
-        }
-        if(amount < 0) {
-            return INT_MAX;
-        }
-        int minCoins = INT_MAX;
-        for(auto i: coins) {
-            int res = solve(coins, amount-i);
-            if(res != INT_MAX) {
-                minCoins = min(minCoins, res+1);
-            }
-        }
-        return minCoins;
-    }
-
-    int coinChange(vector<int>& coins, int amount) {
-        int ans = solve(coins, amount);
-        if(ans == INT_MAX) {
-            return -1;
-        } else {
-            return ans;
-        }
-    }
-};
-
 
 
 
@@ -61,30 +32,33 @@ public:
 // S.C = O(n*amount)
 class Solution {
 public:
-    int solve(vector<int>& coins, int amount, vector<int>& dp) {
-        if(amount == 0) {  // amount has reached 0
+    int solve(vector<int>& coins, int amount, int n, vector<vector<int>>& dp) {
+        if (amount == 0) {
             return 0;
         }
-        if(amount < 0) {   // the denomination choice is wrong
-            return INT_MAX;
+        if (n <= 0) {
+            return 1e9;
         }
-        if(dp[amount] != -1) {
-            return dp[amount];
+        if(dp[n][amount] != -1){
+            return dp[n][amount];
         }
-        int minCoins = INT_MAX;
-        for(auto i: coins) {
-            int res = solve(coins, amount-i, dp);
-            if(res != INT_MAX) {
-                minCoins = min(minCoins, res+1);
-            }
+        // take the current coin
+        int take = 1e9, skip = 0;
+        if (amount - coins[n-1] >= 0) {
+           take = 1 + solve(coins, amount - coins[n-1], n, dp);
         }
-        return dp[amount] = minCoins;
+        // skip the current coin
+       skip= solve(coins, amount, n-1, dp);
+
+       return dp[n][amount] = min(take, skip);
     }
 
     int coinChange(vector<int>& coins, int amount) {
-        vector<int> dp(amount+1, -1);
-        int ans = solve(coins, amount, dp);
-        if(ans == INT_MAX) {
+        int n = coins.size();
+        vector<vector<int>>dp (n+1, vector<int>(amount+1, -1));
+        
+        int ans = solve(coins, amount, n, dp);
+        if(ans == 1e9) {
             return -1;
         } else {
             return ans;
@@ -124,7 +98,7 @@ public:
         for(int i=2; i<=n; i++) {
             for(int j=1; j<=amount; j++) {
                 if(coins[i-1] <= j) {
-                    t[i][j] = min(t[i-1][j], 1+t[i][j-coins[i-1]]);
+                    t[i][j] = min(1 + t[i][j-coins[i-1]], t[i-1][j]);
                 }
                 else if(coins[i-1] > j) {
                     t[i][j] = t[i-1][j];
